@@ -197,6 +197,10 @@ td, th
 {
 	color: #3f3f3f;
 }
+#desk .progress
+{
+	width: 270px;
+}
 #desk .ready
 {
 	width: 125px;
