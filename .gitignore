@@ -1,0 +1,7 @@
+*.orig
+*.pyc
+*.rej
+*.mo
+.DS_Store
+.idea/
+.installed.cfg
