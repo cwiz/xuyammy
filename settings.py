@@ -1,4 +1,6 @@
-# Django settings for xuyammy project.
+import os
+
+DIRNAME = os.path.dirname(__file__)
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -81,7 +83,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'templates',
+    os.path.join(DIRNAME, 'templates/'),
 )
 
 INSTALLED_APPS = (
@@ -91,7 +93,23 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.admin',
+    'django.contrib.staticfiles',
     'dashboard',
     # Uncomment the next line to enable admin documentation:
     # 'django.contrib.admindocs',
+)
+
+
+
+STATIC_URL = '/static'
+STATIC_PATH = os.path.join(DIRNAME, 'static')
+ADMIN_MEDIA_PREFIX = '/static/admin/'
+
+STATICFILES_DIRS = (
+    os.path.join(DIRNAME, 'static'),
+)
+
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 )
