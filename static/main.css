@@ -92,6 +92,10 @@ td, th
 	height: 19px;
 	text-align: center;
 }
+#desk table tbody td
+{
+	height: 184px;
+}
 #desk table tfoot
 {
 	background: #592202;

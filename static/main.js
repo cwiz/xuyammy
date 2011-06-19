@@ -87,6 +87,8 @@ $.fn.task = function(){
 		el
 		.click($.fn.task.expand);
 
+		el.find('a.save').click($.fn.task.save);
+
 	});
 };
 $.fn.task.drop = function(event, ui){
@@ -116,9 +118,33 @@ $.fn.task.create = function(e){
 		<div class="text">&nbsp;</div>\
 		<ul class="tags"></ul>\
 		<p class="actions"><a href="#" class="save">okay, create it</a></p>\
-	</div>').task().appendTo('tbody[story=' + story + '] td.open').trigger('click');
+	</div>')
+	.task()
+	.attr('story', story)
+	.appendTo('tbody[story=' + story + '] td.open')
+	.trigger('click');
 
 	$('#overlay div.task div.text').focus();
+};
+$.fn.task.save = function(e){
+	e.preventDefault();
+
+	var el = $(this).parents('div.task'),
+		d = {
+			'description': el.find('div.text').html(),
+			'story_id': el.attr('story')
+		};
+	
+	if(el.attr('task')) d['id'] = el.attr('task');
+
+	$.post('/task/save/', d, function(resp){
+		
+	});
+
+	setTimeout(function(){
+		$('#overlay').hide();
+		el.data('original').replaceWith(el);
+	}, 25);
 };
 
 
