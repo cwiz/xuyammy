@@ -16,6 +16,7 @@ var data = {
 			var id = order[i];
 			if((id in resp) && ('parse_' + id in data)) data['parse_' + id](resp[id]);
 		}
+		data.refresh();
 	},
 	parse_stories: function(data){
 		for(var id in data)
@@ -31,12 +32,6 @@ var data = {
 					<td class="progress"><h6><strong>in progress</strong></h6></td>\
 					<td class="ready"><h6><strong>done</strong></h6></td>\
 				</tr></tbody>', item).appendTo('#desk table');
-				
-				$('#desk tbody td').sortable({
-					connectWith: story.find('tbody td'),
-					items: 'div.task',
-					placeholder: 'task placeholder'
-				});
 			}
 
 			story.find('h3').text(item.title);
@@ -64,6 +59,14 @@ var data = {
 
 			task.appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
 		}
+	},
+	refresh: function() {
+		$('#desk tbody td').sortable({
+			connectWith: '#desk tbody td',
+			items: 'div.task',
+			placeholder: 'task placeholder',
+			dropOnEmpty: true
+		});
 	}
 };
 
