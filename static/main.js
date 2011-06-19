@@ -7,9 +7,12 @@ $(document).ready(function(){
 
 var data = {
 	get: function(){
-		$.getJSON('/data/', data.parse);
+		var d = {};
+		if(data.timestamp) d['timestamp'] = data.timestamp;
+		$.getJSON('/data/', d, data.parse);
 	},
 	parse: function(resp){
+		data.timestamp = parseInt(resp.timestamp);
 		var order = ['tags', 'stories', 'tasks'];
 		for(var i = 0; i < order.length; i++)
 		{
@@ -17,6 +20,8 @@ var data = {
 			if((id in resp) && ('parse_' + id in data)) data['parse_' + id](resp[id]);
 		}
 		data.refresh();
+
+		setTimeout(data.get, 5000);
 	},
 	parse_stories: function(data){
 		for(var id in data)
@@ -52,6 +57,7 @@ var data = {
 				task = $.tmpl('<div class="task" task="${id}">\
 					<div class="text">${description}</div>\
 					<ul class="tags"></ul>\
+					<p class="actions"><a href="#" class="save">save</a></p>\
 					<ul class="comments">\
 						<li class="status">no comments</li>\
 						<li class="form"><a href="#" class="add">add comment</a></li>\
@@ -59,7 +65,7 @@ var data = {
 				</div>', item).task();
 			}
 
-			task.appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
+			task.attr('story', item.story_id).appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
 		}
 	},
 	refresh: function() {
@@ -68,7 +74,7 @@ var data = {
 			items: 'div.task',
 			placeholder: 'task placeholder',
 			dropOnEmpty: true,
-			containment: '#desk table'
+			containment: '#main'
 		});
 	}
 };
