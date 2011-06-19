@@ -26,12 +26,14 @@ var data = {
 			
 			if(!story.length)
 			{
-				story = $.tmpl('<thead story="${id}"><tr><td colspan="3"><h3></h3></td></tr></thead>\
+				story = $.tmpl('<thead story="${id}"><tr><td colspan="3"><a href="#" class="add">+</a><h3></h3></td></tr></thead>\
 				<tbody story="${id}"><tr>\
 					<td class="open"><h6><strong>open</strong></h6></td>\
 					<td class="progress"><h6><strong>in progress</strong></h6></td>\
 					<td class="ready"><h6><strong>done</strong></h6></td>\
 				</tr></tbody>', item).appendTo('#desk table');
+
+				story.find('a.add').click($.fn.task.create);
 			}
 
 			story.find('h3').text(item.title);
@@ -51,10 +53,10 @@ var data = {
 					<div class="text">${description}</div>\
 					<ul class="tags"></ul>\
 					<ul class="comments">\
-						<li class="tc"><a href="#" class="add">add comment</a></li>\
+						<li class="status">no comments</li>\
+						<li class="form"><a href="#" class="add">add comment</a></li>\
 					</ul>\
 				</div>', item).task();
-				
 			}
 
 			task.appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
@@ -99,3 +101,22 @@ $.fn.task.expand = function(){
 		$('#overlay').show();
 	}
 };
+$.fn.task.create = function(e){
+	e.preventDefault();
+
+	var story = $(this).parents('thead').attr('story');
+
+	$('<div class="task">\
+		<div class="text">&nbsp;</div>\
+		<ul class="tags"></ul>\
+		<p class="actions"><a href="#" class="save">okay, create it</a></p>\
+	</div>').task().appendTo('tbody[story=' + story + '] td.open').trigger('click');
+
+	$('#overlay div.task div.text').focus();
+};
+
+
+
+
+
+
