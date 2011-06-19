@@ -51,27 +51,33 @@ def data(request):
             'timestamp' : time.time(),
         })
 
-def add_task(request):
+def task_save(request):
+
+    # update or create
     if 'id' in request.GET:
-        t = Task.objects.get(id=request.GET.id)
+        t = Task.objects.get(id=request.GET['id'])
+        for attr in t.__dict__.copy():
+            if request.GET.get(attr):
+                setattr(t, attr, request.GET.get(attr))
+        
         t.save()
         flag = CHANGE
-    try:
-    # get related story 
-        s = Story.objects.get(id=request.GET['story_id'])
-        # create task object 
-        t = Task(description=request.GET['description'], story=s)
-        t.save()
-        flag = ADDITION
+    else:
+        try:
+        # get related story 
+            s = Story.objects.get(id=request.GET['story_id'])
+            # create task object 
+            t = Task(description=request.GET['description'], story=s)
+            t.save()
+            flag = ADDITION
 
-    except KeyError:
-        return HttpResponse('{"status" : "Fail", "reason" : "Missing some of the required parameters: description, strory_id"}')
-    except DoesNotExist:
-        return HttpResponse('{"status" : "Fail", "reason" : "It seems story_id is pointing on the non-existent story"}')
+        except KeyError:
+            return HttpResponse('{"status" : "Fail", "reason" : "Missing some of the required parameters: description, strory_id"}')
+        except DoesNotExist:
+            return HttpResponse('{"status" : "Fail", "reason" : "It seems story_id is pointing on the non-existent story"}')
 
-    
         
-    # now log addition
+    # now log addition or update
     LogEntry.objects.log_action(
         user_id         = request.user.pk, 
         content_type_id = ContentType.objects.get_for_model(t).pk,
