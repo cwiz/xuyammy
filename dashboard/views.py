@@ -54,20 +54,20 @@ def data(request):
 def task_save(request):
 
     # update or create
-    if 'id' in request.GET:
-        t = Task.objects.get(id=request.GET['id'])
+    if 'id' in request.POST:
+        t = Task.objects.get(id=request.POST['id'])
         for attr in t.__dict__.copy():
-            if request.GET.get(attr):
-                setattr(t, attr, request.GET.get(attr))
+            if request.POST.get(attr):
+                setattr(t, attr, request.POST.get(attr))
         
         t.save()
         flag = CHANGE
     else:
         try:
         # get related story 
-            s = Story.objects.get(id=request.GET['story_id'])
+            s = Story.objects.get(id=request.POST['story_id'])
             # create task object 
-            t = Task(description=request.GET['description'], story=s)
+            t = Task(description=request.POST['description'], story=s)
             t.save()
             flag = ADDITION
 

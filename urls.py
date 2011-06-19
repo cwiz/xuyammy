@@ -7,7 +7,7 @@ admin.autodiscover()
 urlpatterns = patterns('',
     # Example:
     (r'^data/', 'dashboard.views.data'),
-    (r'^add_task/', 'dashboard.views.add_task'),
+    (r'^task/save/', 'dashboard.views.task_save'),
     (r'^update/', 'dashboard.views.update'),
     (r'^admin/', include(admin.site.urls)),
     (r'^', 'dashboard.views.index'),
