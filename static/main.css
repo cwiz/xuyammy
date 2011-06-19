@@ -68,7 +68,6 @@ td, th
 	padding: 6px 10px;
 	border-left: 1px solid rgba(0,0,0,0.3);
 }
-#desk table thead th,
 #desk table thead td
 {
 	background: #400D01;
@@ -76,10 +75,8 @@ td, th
 	font-size: 11px;
 	white-space: nowrap;
 }
-#desk table thead td
+#desk table thead td h3
 {
-	/*background: #592202;
-	color: white;*/
 	font-weight: bold;
 	font-size: 15px;
 }
