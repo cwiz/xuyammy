@@ -21,7 +21,7 @@ def data(request):
         'tasks' :   serialize_model(Task),
         'stories' : serialize_model(Story),
         'tags' :    serialize_model(Tag),
-        'timestamp' : datetime.now(),
+        'timestamp' : datetime.datetime.now(),
     })
 
 def add_task(request):
@@ -51,9 +51,10 @@ def add_task(request):
 def update(request):
     try:
         # trying to get all objects changed/added since timestamp
-        entries = LogEntry.objects.select_related('object_repr').filter(action_time__gt=datetime.datetime.fromtimestamp(int(request.GET['timestamp'])))
+        entries = LogEntry.objects.filter(action_time__gt=datetime.datetime.fromtimestamp(int(request.GET['timestamp'])))
         for entry in entries:
-            print entry.object_repr
+            print entry.get_edited_object()
+            # print dir(entry.object_repr)
             
         return HttpResponse('{"status" : "Success"}')
     except KeyError:
@@ -65,3 +66,4 @@ def serialize_model(model):
     for item in model.objects.values():
         result[item['id']] = item
     return json.dumps(result, cls=DjangoJSONEncoder, indent=4)
+    
