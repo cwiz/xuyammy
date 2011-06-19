@@ -1,8 +1,10 @@
 from models import Story, Tag, Task
+from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.core import serializers
 from django.utils import simplejson
+from django.forms.models import model_to_dict
 from django.core.serializers.json import DjangoJSONEncoder
 from django.contrib.admin.models import LogEntry, ADDITION
 from django.contrib.contenttypes.models import ContentType
@@ -51,12 +53,24 @@ def add_task(request):
 def update(request):
     try:
         # trying to get all objects changed/added since timestamp
-        entries = LogEntry.objects.filter(action_time__gt=datetime.datetime.fromtimestamp(int(request.GET['timestamp'])))
-        for entry in entries:
-            print entry.get_edited_object()
-            # print dir(entry.object_repr)
-            
-        return HttpResponse('{"status" : "Success"}')
+        entries = LogEntry.objects.filter(
+            action_time__gt = datetime.datetime.fromtimestamp(int(request.GET['timestamp'])),
+        )
+        result = {'tasks' : {}, 'stories' : {}, 'tags' : {}}
+        for e in entries:
+            try:
+                obj = e.get_edited_object()
+            except ObjectDoesNotExist:
+                continue
+            if isinstance(obj, Task):
+                result['tasks'][obj.id] = json.dumps(model_to_dict(obj), cls=DjangoJSONEncoder, indent=4)
+            elif isinstance(obj, Story):
+                result['stories'][obj.id] = json.dumps(model_to_dict(obj), cls=DjangoJSONEncoder, indent=4)
+            elif isinstance(obj, Tag):
+                result['tags'][obj.id] = json.dumps(model_to_dict(obj), cls=DjangoJSONEncoder, indent=4)
+
+        return render(request, 'data.html', result)
+        
     except KeyError:
         return HttpResponse('{"status" : "Fail", "reason" : "Missing timestamp GET parameter"}')
         
