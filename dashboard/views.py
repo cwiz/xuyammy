@@ -51,11 +51,15 @@ def data(request):
             'timestamp' : time.time(),
         })
 
-def add_task(request):
+def task_save(request):
 
     # update or create
     if 'id' in request.GET:
         t = Task.objects.get(id=request.GET['id'])
+        for attr in t.__dict__.copy():
+            if request.GET.get(attr):
+                setattr(t, attr, request.GET.get(attr))
+        
         t.save()
         flag = CHANGE
     else:
