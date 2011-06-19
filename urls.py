@@ -6,11 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
     # Example:
-    (r'', 'dashboard.views.index'),
-
-    # Uncomment the admin/doc line below to enable admin documentation:
-    # (r'^admin/doc/', include('django.contrib.admindocs.urls')),
-
-    # Uncomment the next line to enable the admin:
+    (r'^data/', 'dashboard.views.data'),
     (r'^admin/', include(admin.site.urls)),
+    (r'^', 'dashboard.views.index'),
 )
