@@ -47,7 +47,7 @@ var data = {
 			//console.log(item);
 			if(!task.length)
 			{
-				task = $.tmpl('<div class="task">\
+				task = $.tmpl('<div class="task" task="${id}">\
 					<div class="text">${description}</div>\
 					<ul class="tags"></ul>\
 					<ul class="comments">\
@@ -65,7 +65,8 @@ var data = {
 			connectWith: '#desk tbody td',
 			items: 'div.task',
 			placeholder: 'task placeholder',
-			dropOnEmpty: true
+			dropOnEmpty: true,
+			containment: '#desk table'
 		});
 	}
 };
