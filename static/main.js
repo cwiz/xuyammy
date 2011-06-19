@@ -85,7 +85,12 @@ $.fn.task = function(){
 		var el = $(this);
 
 		el
-		.click($.fn.task.expand);
+		.mousedown(function(){
+			$(this).data('start', +(new Date()));
+		})
+		.mouseup(function(){
+			if( +(new Date()) - $(this).data('start') < 200) $.fn.task.expand.call(this);
+		});
 
 		el.find('a.save').click($.fn.task.save);
 
@@ -101,7 +106,7 @@ $.fn.task.expand = function(){
 
 	if(el.parents('#desk').length)
 	{
-		el.clone(true).data('original', el)
+		el.removeAttr('style').removeClass('ui-sortable-helper').clone(true).data('original', el)
 		.find('div.text').attr('contenteditable', 'true').end()
 		.appendTo(
 			$('#overlay > div').empty()

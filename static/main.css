@@ -90,6 +90,7 @@ td, th
 	padding: 0;
 	width: 21px;
 	height: 19px;
+	line-height: 19.5px;
 	text-align: center;
 }
 #desk table tbody td
@@ -118,7 +119,7 @@ td, th
 }
 .task .text
 {
-	background: #EAEAEA;
+	background: #E9E6E2;
 	padding: 6px;
 }
 .task .text p
@@ -206,14 +207,21 @@ td, th
 	-moz-box-shadow: 0 2px 3px rgba(0,0,0,0.25);
 	-webkit-box-shadow: 0 2px 3px rgba(0,0,0,0.25);
 	box-shadow: 0 2px 3px rgba(0,0,0,0.25);
+	-moz-transition: box-shadow 200ms, -moz-transform 200ms;
+	-webkit-transition: box-shadow 200ms, -webkit-transform 200ms;
+	transition: box-shadow 200ms, transform 200ms;
 }
 #desk .task.ui-sortable-helper
 {
 	z-index: 200;
 	cursor: move;
+	opacity: 1!important;
 	-moz-box-shadow: 0 5px 12px rgba(0,0,0,0.4);
 	-webkit-box-shadow: 0 5px 12px rgba(0,0,0,0.4);
 	box-shadow: 0 5px 12px rgba(0,0,0,0.4);
+	-moz-transform: scale(1.05);
+	-webkit-transform: scale(1.05);
+	transform: scale(1.05);
 }
 #desk .task .text
 {
