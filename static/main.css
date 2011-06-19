@@ -21,7 +21,7 @@ td, th
 }
 #header
 {
-	background: black;
+	background: black url('logo.gif') no-repeat 10px center;
 	height: 35px;
 	position: absolute;
 	top: 0;
