@@ -89,7 +89,7 @@ $.fn.task = function(){
 			$(this).data('start', +(new Date()));
 		})
 		.mouseup(function(){
-			if( +(new Date()) - $(this).data('start') < 200) $.fn.task.expand.call(this);
+			if( !$(this).data('start') || (+(new Date()) - $(this).data('start') < 200)) $.fn.task.expand.call(this);
 		});
 
 		el.find('a.save').click($.fn.task.save);
@@ -127,7 +127,7 @@ $.fn.task.create = function(e){
 	.task()
 	.attr('story', story)
 	.appendTo('tbody[story=' + story + '] td.open')
-	.trigger('click');
+	.trigger('mouseup');
 
 	$('#overlay div.task div.text').focus();
 };
