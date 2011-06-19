@@ -52,6 +52,7 @@ var data = {
 				task = $.tmpl('<div class="task" task="${id}">\
 					<div class="text">${description}</div>\
 					<ul class="tags"></ul>\
+					<p class="actions"><a href="#" class="save">save</a></p>\
 					<ul class="comments">\
 						<li class="status">no comments</li>\
 						<li class="form"><a href="#" class="add">add comment</a></li>\
@@ -59,7 +60,7 @@ var data = {
 				</div>', item).task();
 			}
 
-			task.appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
+			task.attr('story', item.story_id).appendTo('tbody[story=' + item.story_id + '] td.' + status[item.status]);
 		}
 	},
 	refresh: function() {
@@ -68,7 +69,7 @@ var data = {
 			items: 'div.task',
 			placeholder: 'task placeholder',
 			dropOnEmpty: true,
-			containment: '#desk table'
+			containment: '#main'
 		});
 	}
 };

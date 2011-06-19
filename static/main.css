@@ -149,7 +149,7 @@ td, th
 }
 .task .actions
 {
-	padding: 10px 0;
+	padding: 7px 0 15px;
 }
 
 
@@ -236,9 +236,9 @@ td, th
 {
 	background: rgba(64,13,1,0.3);
 	height: 142px;
-	-moz-box-shadow: 0 -1px 0 rgba(64,13,1,0.6), 0 1px 0 rgba(255,255,255,0.5);
-	-webkit-box-shadow: 0 -1px 0 rgba(64,13,1,0.6), 0 1px 0 rgba(255,255,255,0.5);
-	box-shadow: 0 -1px 0 rgba(64,13,1,0.6), 0 1px 0 rgba(255,255,255,0.5);
+	-moz-box-shadow: inset 0 1px 0 rgba(64,13,1,0.3), 0 1px 0 rgba(255,255,255,0.5);
+	-webkit-box-shadow: inset 0 1px 0 rgba(64,13,1,0.3), 0 1px 0 rgba(255,255,255,0.5);
+	box-shadow: inset 0 1px 0 rgba(64,13,1,0.3), 0 1px 0 rgba(255,255,255,0.5);
 }
 
 
