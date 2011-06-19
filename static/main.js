@@ -7,9 +7,12 @@ $(document).ready(function(){
 
 var data = {
 	get: function(){
-		$.getJSON('/data/', data.parse);
+		var d = {};
+		if(data.timestamp) d['timestamp'] = data.timestamp;
+		$.getJSON('/data/', d, data.parse);
 	},
 	parse: function(resp){
+		data.timestamp = parseInt(resp.timestamp);
 		var order = ['tags', 'stories', 'tasks'];
 		for(var i = 0; i < order.length; i++)
 		{
@@ -17,6 +20,8 @@ var data = {
 			if((id in resp) && ('parse_' + id in data)) data['parse_' + id](resp[id]);
 		}
 		data.refresh();
+
+		setTimeout(data.get, 5000);
 	},
 	parse_stories: function(data){
 		for(var id in data)
