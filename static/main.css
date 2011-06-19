@@ -226,6 +226,11 @@ td, th
 	height: 10px;
 	opacity: 0.9;
 }
+#desk .ready .task .text
+{
+	background: url('crumpled.jpg') repeat center;
+}
+
 
 #tags
 {
