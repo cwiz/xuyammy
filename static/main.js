@@ -2,7 +2,7 @@ $(document).ready(function(){
 	
 	data.get();
 
-	$('div.task').task();
+	$('#desk tfoot a.add').click($.fn.story.create);
 });
 
 var data = {
@@ -36,7 +36,7 @@ var data = {
 					<td class="open"><h6><strong>open</strong></h6></td>\
 					<td class="progress"><h6><strong>in progress</strong></h6></td>\
 					<td class="ready"><h6><strong>done</strong></h6></td>\
-				</tr></tbody>', item).appendTo('#desk table');
+				</tr></tbody>', item).appendTo('#desk table').story();
 
 				story.find('a.add').click($.fn.task.create);
 			}
@@ -153,7 +153,48 @@ $.fn.task.save = function(e){
 };
 
 
+$.fn.story = function(){
+	return $(this).each(function(){
+		var el = $(this);
 
+		el.find('h3').click($.fn.story.edit).keydown($.fn.story.save).blur($.fn.story.save);
+	});
+};
+$.fn.story.save = function(e){
+	var el = $(this),
+	    story = el.parents('thead'),
+	    id = story.attr('story'),
+	    d = {
+	    	'title': el.text()
+		};
+	
+	if(el.attr('contenteditable') && (e.type == 'blur' || (e.type == 'keydown' && e.keyCode == 13)))
+	{
+		if(e.type == 'keydown') e.preventDefault();
+
+		if(id) d['id'] = id;
+		$.post('/story/save/', d, function(resp){
+			
+		});
+
+		el.removeAttr('contenteditable');
+
+		story.trigger('save');
+	}
+};
+$.fn.story.edit = function(e){
+	var el = $(this),
+	    id = el.parents('thead').attr('story');
+	
+	el.attr('contenteditable', 'true').focus();
+
+
+};
+$.fn.story.create = function(e){
+	e.preventDefault();
+
+	$('<thead><tr><td colspan="3"><h3>&nbsp;</h3></td></tr></thead>').story().bind('save', function(){ $(this).remove() }).appendTo('#desk table').find('h3').trigger('click');
+};
 
 
 
