@@ -177,7 +177,7 @@ $.fn.story.save = function(e){
 			
 		});
 
-		el.removeAttr('contenteditable');
+		el.removeAttr('contenteditable').blur();
 
 		story.trigger('save');
 	}
