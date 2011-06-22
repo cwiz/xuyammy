@@ -1,1 +1,11 @@
-Lightweight scrum dashboard for the web.
+xuyammy (pronounced [hoo-ya-me]) is a lightweight scrum dashboard for the web.
+
+Built on top:
+- Tornado web-server
+- Django models
+- Some funky HTML5 tech
+
+Usage:
+python application.py
+browser -> localhost:8888
+

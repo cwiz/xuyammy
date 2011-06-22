@@ -86,4 +86,16 @@ class TaskHandler(tornado.web.RequestHandler):
         return self.write(get_current_items())
 
 
+class WebSocketHandler(tornado.websocket.WebSocketHandler):
+    def open(self):
+        pass
+
+    def on_message(self, message):
+        pass
+    
+    def on_close(self):
+        pass
+
+
+
 
