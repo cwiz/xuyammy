@@ -3,9 +3,13 @@ from models import get_tags_since, get_stories_since, get_tasks_since
 from utils.views import dict_2_json
 
 from datetime import datetime
+from tornado.websocket import WebSocketHandler
 
 import time
 import tornado
+
+
+LISTENERS = []
 
 def get_current_items(timestamp=None):
     if timestamp is not None:
@@ -27,6 +31,11 @@ def get_current_items(timestamp=None):
     })
 
 
+def update_clients():
+    for element in LISTENERS:
+        element.write_message(get_current_items())
+
+
 class MainDashboardHandler(tornado.web.RequestHandler):
     def get(self):
         html = open('static/index.html').read()
@@ -45,6 +54,7 @@ class StoryHandler(tornado.web.RequestHandler):
         name = self.get_argument('name')
         Story.objects.get_or_create(name=name)
 
+        update_clients()
         return self.write(get_current_items())
 
 
@@ -83,19 +93,17 @@ class TaskHandler(tornado.web.RequestHandler):
                     'errors': ['It seems story_id is pointing on the non-existent story']
                 })
 
+        update_clients()
         return self.write(get_current_items())
 
 
-class WebSocketHandler(tornado.websocket.WebSocketHandler):
+class WebSocketEventHandler(WebSocketHandler):
     def open(self):
-        pass
+        LISTENERS.append(self)
 
     def on_message(self, message):
         pass
-    
+
     def on_close(self):
-        pass
-
-
-
-
+        if self in LISTENERS:
+            LISTENERS.remove(self)
