@@ -9,7 +9,7 @@ class Project(models.Model):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now_add=True, auto_now=True)
     deleted = models.BooleanField(default=False)
-    
+
 
 class Sprint(models.Model):
     start_date = models.DateField()
