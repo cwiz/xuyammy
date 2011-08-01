@@ -1,5 +1,5 @@
 // User
-var UserModel = Backbone.Model.extend({
+var User = Backbone.Model.extend({
 	defaults: {
 	}
 });
@@ -14,7 +14,8 @@ var ProjectModel = Backbone.Model.extend({
 var SprintModel = Backbone.Model.extend({
 	defaults: {
 		text: ''
-	}
+	},
+	urlRoot: '/sprint'
 });
 
 // Story
@@ -39,5 +40,13 @@ var CommentModel = Backbone.Model.extend({
 
 
 // SprintCollection
+
+// StoryCollection
+var Stories = Backbone.Collection.extend({
+	model: StoryModel,
+	url: '/sprint/'
+});
+
+
 // TaskCollection
 // CommentCollection
