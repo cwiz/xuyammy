@@ -2,6 +2,17 @@
 var Xuyammy = Backbone.View.extend({
 	el: 'body',
 	initialize: function(){
+		/*
+			app
+			  |_user
+			       |_projects
+			                |_sprints
+			                        |_desk
+			                        |    |_stories
+				                    |            |_tasks
+				                    |                  |_comments
+			                        |_tags
+		*/
 		this.desk = new Desk();
 		this.stories = new Stories();
 		this.stories.fetch();
